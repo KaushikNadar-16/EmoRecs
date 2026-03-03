@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EmoRecs | Emotion-Based Recommendation System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #6c63ff;
+      --secondary: #00d2ff;
+      --dark: #0f1226;
+      --light: #f5f7ff;
+      --glass: rgba(255, 255, 255, 0.12);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(108, 99, 255, 0.25), transparent 40%),
+        radial-gradient(1000px 500px at 90% 20%, rgba(0, 210, 255, 0.25), transparent 40%),
+        linear-gradient(180deg, #0b0e2b 0%, #0f1226 100%);
+      color: var(--light);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    /* Header */
+    header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 24px 8%;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 700;
+      font-size: 1.2rem;
+    }
+
+    .logo svg {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      padding: 6px;
+    }
+
+    nav a {
+      margin-left: 28px;
+      text-decoration: none;
+      color: var(--light);
+      opacity: 0.85;
+      font-weight: 400;
+    }
+
+    nav a:hover {
+      opacity: 1;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 80px 8% 120px;
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 48px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: 3rem;
+      line-height: 1.2;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 1.05rem;
+      opacity: 0.9;
+      max-width: 520px;
+      margin-bottom: 32px;
+    }
+
+    .cta {
+      display: flex;
+      gap: 16px;
+    }
+
+    .btn {
+      padding: 14px 28px;
+      border-radius: 30px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: #fff;
+      box-shadow: 0 10px 30px rgba(108, 99, 255, 0.35);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--light);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    /* Hero Visual */
+    .visual {
+      background: var(--glass);
+      backdrop-filter: blur(16px);
+      border-radius: 24px;
+      padding: 28px;
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+    }
+
+    .visual h3 {
+      margin-bottom: 16px;
+      font-weight: 600;
+    }
+
+    .emotion-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .emotion {
+      padding: 18px 12px;
+      border-radius: 16px;
+      background: rgba(255, 255, 255, 0.08);
+      text-align: center;
+      font-size: 0.9rem;
+    }
+
+    /* Features */
+    section.features {
+      padding: 80px 8%;
+    }
+
+    .features h2 {
+      text-align: center;
+      font-size: 2.2rem;
+      margin-bottom: 48px;
+    }
+
+    .feature-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 28px;
+    }
+
+    .card {
+      background: var(--glass);
+      backdrop-filter: blur(14px);
+      border-radius: 22px;
+      padding: 28px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
+    }
+
+    .card h3 {
+      margin-bottom: 12px;
+    }
+
+    .card p {
+      opacity: 0.9;
+      font-size: 0.95rem;
+    }
+
+    /* How it works */
+    .how {
+      padding: 80px 8% 100px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 28px;
+    }
+
+    .step {
+      padding: 24px;
+      border-left: 4px solid var(--primary);
+      background: rgba(255, 255, 255, 0.06);
+      border-radius: 12px;
+    }
+
+    /* Footer */
+    footer {
+      padding: 40px 8%;
+      text-align: center;
+      opacity: 0.7;
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        padding-top: 40px;
+      }
+
+      .hero h1 {
+        font-size: 2.3rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="12" r="10" stroke="white" stroke-width="2" />
+        <path d="M8 14c1.2 1 2.5 1.5 4 1.5s2.8-.5 4-1.5" stroke="white" stroke-width="2" stroke-linecap="round" />
+        <circle cx="9" cy="10" r="1" fill="white" />
+        <circle cx="15" cy="10" r="1" fill="white" />
+      </svg>
+      EmoRecs
+    </div>
+    <nav>
+      <a href="#features">Features</a>
+      <a href="#how">How it Works</a>
+    </nav>
+  </header>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div>
+      <h1>Emotion‑Based<br />Smart Recommendations</h1>
+      <p>
+        EmoRecs detects your real‑time facial emotions using AI and computer vision,
+        then recommends movies, music, games, and books that truly match how you feel.
+      </p>
+      <div class="cta">
+        <button class="btn btn-primary">Get Started</button>
+        <button class="btn btn-outline">View Demo</button>
+      </div>
+    </div>
+
+    <div class="visual">
+      <h3>Detected Emotions</h3>
+      <div class="emotion-grid">
+        <div class="emotion">😊 Happy</div>
+        <div class="emotion">😌 Calm</div>
+        <div class="emotion">😢 Sad</div>
+        <div class="emotion">😠 Angry</div>
+        <div class="emotion">😲 Surprised</div>
+        <div class="emotion">😐 Neutral</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features -->
+  <section class="features" id="features">
+    <h2>Powerful Features</h2>
+    <div class="feature-grid">
+      <div class="card">
+        <h3>🎥 Real‑Time Emotion Detection</h3>
+        <p>Uses computer vision and OpenCV to analyze facial expressions instantly.</p>
+      </div>
+      <div class="card">
+        <h3>🤖 AI‑Driven Recommendations</h3>
+        <p>Smart ML models suggest content that matches your current mood.</p>
+      </div>
+      <div class="card">
+        <h3>🌐 Internet‑Wide Content</h3>
+        <p>Fetches movies, music, games, and books using real‑time APIs.</p>
+      </div>
+      <div class="card">
+        <h3>⚡ Streamlit Powered</h3>
+        <p>Fast, interactive, and modern web interface built with Streamlit.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- How it works -->
+  <section class="how" id="how">
+    <h2 style="text-align:center; margin-bottom:40px;">How It Works</h2>
+    <div class="steps">
+      <div class="step">
+        <h4>1. Capture Emotion</h4>
+        <p>Your webcam captures facial expressions in real time.</p>
+      </div>
+      <div class="step">
+        <h4>2. Analyze Mood</h4>
+        <p>AI models classify emotions using trained datasets.</p>
+      </div>
+      <div class="step">
+        <h4>3. Recommend Content</h4>
+        <p>Relevant movies, music, games, and books are suggested instantly.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    © 2026 EmoRecs · Emotion‑Based Recommendation System
+  </footer>
+
+  <!-- Auth Section -->
+  <section class="features" id="auth" style="padding-top:40px;">
+    <h2>Join EmoRecs</h2>
+    <p style="text-align:center; max-width:600px; margin:0 auto 40px; opacity:0.9;">
+      Create an account to get personalized, emotion‑aware recommendations powered by AI.
+    </p>
+
+
+    <!-- Signup Card -->
+    <div class="card">
+      <h3>✨ Sign Up</h3>
+      <p>New here? Create your EmoRecs account.</p>
+      <form style="margin-top:20px;">
+        <input type="text" placeholder="Full Name" required
+          style="width:100%; padding:12px; border-radius:12px; border:none; margin-bottom:12px;">
+        <input type="email" placeholder="Email" required
+          style="width:100%; padding:12px; border-radius:12px; border:none; margin-bottom:12px;">
+        <input type="password" placeholder="Password" required
+          style="width:100%; padding:12px; border-radius:12px; border:none; margin-bottom:16px;">
+        <button type="submit" class="btn btn-outline" style="width:100%;">Create Account</button>
+      </form>
+      <p style="margin-top:12px; font-size:0.85rem; opacity:0.8;">
+        By signing up, you agree to our <a href="#" style="color:#9aa0ff;">Terms</a> & <a href="#"
+          style="color:#9aa0ff;">Privacy Policy</a>.
+      </p>
+    </div>
+
+    <div class="feature-grid">
+      <!-- Login Card -->
+      <div class="card">
+        <h3>🔐 Login</h3>
+        <p>Access your personalized Emotion‑Based Recommendations.</p>
+        <form style="margin-top:20px;">
+          <input type="email" placeholder="Email" required
+            style="width:100%; padding:12px; border-radius:12px; border:none; margin-bottom:12px;">
+          <input type="password" placeholder="Password" required
+            style="width:100%; padding:12px; border-radius:12px; border:none; margin-bottom:16px;">
+          <button type="submit" class="btn btn-primary" style="width:100%;">Login</button>
+        </form>
+        <p style="margin-top:12px; font-size:0.85rem; opacity:0.8;">Forgot password? <a href="#"
+            style="color:#9aa0ff;">Reset</a></p>
+      </div>
+    </div>
+  </section>
+
+</body>
+
+</html>
